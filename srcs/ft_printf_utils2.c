@@ -6,7 +6,7 @@
 /*   By: ryosukearima <ryosukearima@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 16:30:24 by ryosukearim       #+#    #+#             */
-/*   Updated: 2022/02/02 10:09:18 by ryosukearim      ###   ########.fr       */
+/*   Updated: 2022/02/02 15:28:22 by ryosukearim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	base_deci(long long nbr)
 
 	print_count = 0;
 	digits = count_digit_number_ll(nbr);
-	ptr = (char *)malloc(sizeof(char *) * (digits + 1));
+	ptr = (char *)malloc(sizeof(char) * (digits + 1));
 	if (!ptr)
 		return (0);
 	if (nbr == 0)
