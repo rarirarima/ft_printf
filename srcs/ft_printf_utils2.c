@@ -6,11 +6,29 @@
 /*   By: ryosukearima <ryosukearima@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 16:30:24 by ryosukearim       #+#    #+#             */
-/*   Updated: 2022/01/08 23:50:35 by ryosukearim      ###   ########.fr       */
+/*   Updated: 2022/02/02 10:09:18 by ryosukearim      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_printf.h"
+
+static char	*ft_strcat(char *dest, char *src)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (dest[i] != '\0')
+		i++;
+	while (src[j] != '\0')
+	{
+		dest[i + j] = src[j];
+		j++;
+	}
+	dest[i + j] = '\0';
+	return (dest);
+}
 
 static size_t	count_digit_number_ll(long long n)
 {
@@ -34,7 +52,7 @@ static size_t	count_digit_number_ll(long long n)
 	return (digit);
 }
 
-static void	int_to_char_array_put(long long nbr, char *str, size_t digit)
+static void	ll_to_char(long long nbr, char *str, size_t digit)
 {
 	size_t	i;
 
@@ -53,34 +71,30 @@ static void	int_to_char_array_put(long long nbr, char *str, size_t digit)
 	str[digit] = '\0';
 }
 
-static char	*ft_itoa_ll(long long nbr, size_t digits)
-{
-	char	*p;
-
-	p = (char *)malloc(sizeof(char) * (digits + 1));
-	if (!p)
-	{
-		free (p);
-		return (NULL);
-	}
-	if (nbr == 0)
-	{
-		p[0] = '0';
-		p[1] = '\0';
-	}
-	else if (nbr == LLONG_MIN)
-		p = "-9223372036854775808";
-	else
-		int_to_char_array_put(nbr, p, digits);
-	free (p);
-	return (p);
-}
-
 int	base_deci(long long nbr)
 {
+	char	*ptr;
+	size_t	print_count;
 	size_t	digits;
 
+	print_count = 0;
 	digits = count_digit_number_ll(nbr);
-	put_string(ft_itoa_ll(nbr, digits));
-	return (digits);
+	ptr = (char *)malloc(sizeof(char *) * (digits + 1));
+	if (!ptr)
+		return (0);
+	if (nbr == 0)
+	{
+		ptr[0] = '0';
+		ptr[1] = '\0';
+	}
+	else if (nbr == LLONG_MIN)
+	{
+		ptr[0] = '\0';
+		ft_strcat(ptr, "-9223372036854775808\0");
+	}
+	else
+		ll_to_char(nbr, ptr, digits);
+	print_count += put_string(ptr);
+	free(ptr);
+	return (print_count);
 }
